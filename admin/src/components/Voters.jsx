@@ -14,11 +14,21 @@ import {
   DialogContent,
   DialogActions,
   Input,
-  Alert
+  Alert,
+  IconButton,
 } from "@mui/material";
 import * as XLSX from "xlsx";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
-import { db } from "../helpers/firebase"; // Adjust the import path as needed
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import { db } from "../helpers/firebase";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Voters = () => {
   const [voters, setVoters] = useState([]);
@@ -35,7 +45,10 @@ const Voters = () => {
     try {
       const votersCollection = collection(db, "voters");
       const votersSnapshot = await getDocs(votersCollection);
-      const votersList = votersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const votersList = votersSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setVoters(votersList);
     } catch (error) {
       console.error("Error fetching voters:", error);
@@ -77,7 +90,7 @@ const Voters = () => {
             applicantId: voter["Applicant Id"] || "",
             level: voter.Level || "",
             gender: voter.Gender || "",
-            hasVoted: false
+            hasVoted: false,
           }));
 
           await saveVotersToDatabase(votersToSave);
@@ -95,22 +108,59 @@ const Voters = () => {
   const saveVotersToDatabase = async (voters) => {
     try {
       const votersCollection = collection(db, "voters");
-      
+
       // Check for existing voters
-      const indexNumbers = voters.map(voter => voter.indexNumber);
-      const existingVotersQuery = query(votersCollection, where("indexNumber", "in", indexNumbers));
+      const indexNumbers = voters.map((voter) => voter.indexNumber);
+      const existingVotersQuery = query(
+        votersCollection,
+        where("indexNumber", "in", indexNumbers)
+      );
       const existingVotersSnapshot = await getDocs(existingVotersQuery);
-      const existingIndexNumbers = new Set(existingVotersSnapshot.docs.map(doc => doc.data().indexNumber));
+      const existingIndexNumbers = new Set(
+        existingVotersSnapshot.docs.map((doc) => doc.data().indexNumber)
+      );
 
-      const newVoters = voters.filter(voter => !existingIndexNumbers.has(voter.indexNumber));
+      const newVoters = voters.filter(
+        (voter) => !existingIndexNumbers.has(voter.indexNumber)
+      );
 
-      const promises = newVoters.map(voter => addDoc(votersCollection, voter));
+      const promises = newVoters.map((voter) =>
+        addDoc(votersCollection, voter)
+      );
       await Promise.all(promises);
 
-      setError(<Alert severity="success">Voters successfully saved to database</Alert>);
+      setError(
+        <Alert severity="success">Voters successfully saved to database</Alert>
+      );
     } catch (error) {
       console.error("Error saving voters to database:", error);
       setError(<Alert severity="error">Error saving voters to database</Alert>);
+    }
+  };
+
+  const deleteVoter = async (voter) => {
+    try {
+      const votersCollection = collection(db, "voters");
+      const voterDoc = doc(votersCollection, voter.id);
+      await deleteDoc(voterDoc);
+      await fetchVoters();
+    } catch (error) {
+      console.error("Error deleting voter:", error);
+      setError(<Alert severity="error">Error deleting voter</Alert>);
+    }
+  };
+
+  const deleteAllVoters = async () => {
+    try {
+      const votersCollection = collection(db, "voters");
+      const votersSnapshot = await getDocs(votersCollection);
+      const promises = votersSnapshot.docs.map((doc) => deleteDoc(doc.ref));
+      await Promise.all(promises);
+      await fetchVoters();
+      setError(<Alert severity="success">All voters have been deleted</Alert>);
+    } catch (error) {
+      console.error("Error deleting all voters:", error);
+      setError(<Alert severity="error">Error deleting all voters</Alert>);
     }
   };
 
@@ -119,7 +169,12 @@ const Voters = () => {
       <Typography variant="h4" gutterBottom>
         Voters
       </Typography>
-      <Button variant="contained" onClick={handleOpen}>Add Voters</Button>
+      <Button variant="contained" onClick={handleOpen}>
+        Add Voters
+      </Button>
+      <Button variant="contained" color="error" onClick={deleteAllVoters}>
+        Delete All Voters
+      </Button>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -129,6 +184,7 @@ const Voters = () => {
               <TableCell>Level</TableCell>
               <TableCell>Gender</TableCell>
               <TableCell>Has Voted</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -139,6 +195,11 @@ const Voters = () => {
                 <TableCell>{voter.level}</TableCell>
                 <TableCell>{voter.gender}</TableCell>
                 <TableCell>{voter.hasVoted ? "Yes" : "No"}</TableCell>
+                <TableCell>
+                  <IconButton onClick={() => deleteVoter(voter)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -155,7 +216,8 @@ const Voters = () => {
             accept=".xlsx, .xls, .csv"
           />
           <p>
-            Please upload an Excel file with columns: Index Number, Name, Level, and Gender.
+            Please upload an Excel file with columns: Index Number, Name, Level,
+            and Gender.
           </p>
           <Button
             variant="contained"

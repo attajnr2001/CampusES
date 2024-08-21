@@ -21,10 +21,18 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  IconButton,
 } from "@mui/material";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../helpers/firebase";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Candidates = () => {
   const [candidates, setCandidates] = useState([]);
@@ -118,6 +126,34 @@ const Candidates = () => {
     setLoading(false);
   };
 
+  const deleteCandidate = async (candidate) => {
+    try {
+      const candidatesCollection = collection(db, "candidates");
+      const candidateDoc = doc(candidatesCollection, candidate.id);
+      await deleteDoc(candidateDoc);
+      await fetchCandidates();
+    } catch (error) {
+      console.error("Error deleting candidate:", error);
+      setError(<Alert severity="error">Error deleting candidate</Alert>);
+    }
+  };
+
+  const deleteAllCandidates = async () => {
+    try {
+      const candidatesCollection = collection(db, "candidates");
+      const candidatesSnapshot = await getDocs(candidatesCollection);
+      const promises = candidatesSnapshot.docs.map((doc) => deleteDoc(doc.ref));
+      await Promise.all(promises);
+      await fetchCandidates();
+      setError(
+        <Alert severity="success">All candidates have been deleted</Alert>
+      );
+    } catch (error) {
+      console.error("Error deleting all candidates:", error);
+      setError(<Alert severity="error">Error deleting all candidates</Alert>);
+    }
+  };
+
   return (
     <div>
       <Typography variant="h4" gutterBottom>
@@ -125,6 +161,9 @@ const Candidates = () => {
       </Typography>
       <Button variant="contained" onClick={handleOpen}>
         Add Candidate
+      </Button>
+      <Button variant="contained" color="error" onClick={deleteAllCandidates}>
+        Delete All Candidates
       </Button>
       <TableContainer component={Paper}>
         <Table>
@@ -136,6 +175,7 @@ const Candidates = () => {
               <TableCell>Level</TableCell>
               <TableCell>Gender</TableCell>
               <TableCell>Position</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -149,6 +189,11 @@ const Candidates = () => {
                 <TableCell>{candidate.level}</TableCell>
                 <TableCell>{candidate.gender}</TableCell>
                 <TableCell>{candidate.position}</TableCell>
+                <TableCell>
+                  <IconButton onClick={() => deleteCandidate(candidate)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -222,7 +267,7 @@ const Candidates = () => {
                 <MenuItem value="President">President</MenuItem>
                 <MenuItem value="Organizer">Organizer</MenuItem>
                 <MenuItem value="Secretary">Secretary</MenuItem>
-                <MenuItem value="Financier">Treasurer</MenuItem>
+                <MenuItem value="Treasurer">Treasurer</MenuItem>
               </Select>
             </FormControl>
           </Box>

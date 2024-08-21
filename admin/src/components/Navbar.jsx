@@ -153,7 +153,7 @@ function Navbar() {
               variant="h6"
               noWrap
               component={Link}
-              to="/client/dashboard"
+              to="/dashboard"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
