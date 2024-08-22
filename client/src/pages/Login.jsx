@@ -34,7 +34,7 @@ const Login = () => {
       const q = query(
         votersCollection,
         where("indexNumber", "==", parseInt(indexNumber)),
-        where("applicantId", "==", applicantId)
+        where("applicantId", "==", parseInt(applicantId))
       );
       const querySnapshot = await getDocs(q);
 
