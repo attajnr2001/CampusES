@@ -5,12 +5,13 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAu2WzzRMkXnwUmpcGMFqxosIVH_om2ix0",
-  authDomain: "campuses-9d5d9.firebaseapp.com",
-  projectId: "campuses-9d5d9",
-  storageBucket: "campuses-9d5d9.appspot.com",
-  messagingSenderId: "542803586216",
-  appId: "1:542803586216:web:7c82b8ff4cf29f67ff669d",
+  apiKey: "AIzaSyAUq3tJLjj0D5EBTOzTLO6du6H5qTKGXtw",
+  authDomain: "osbornecampuses.firebaseapp.com",
+  projectId: "osbornecampuses",
+  storageBucket: "osbornecampuses.appspot.com",
+  messagingSenderId: "230247757794",
+  appId: "1:230247757794:web:6674813e121022b9a0ebbb",
+  measurementId: "G-HX7ZVPPM2G",
 };
 
 // Initialize Firebase

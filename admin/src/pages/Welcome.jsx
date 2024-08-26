@@ -55,7 +55,7 @@ const Welcome = () => {
                 WELCOME TO EASEVOTE
               </Typography>
               <Typography variant="h5" paragraph>
-                Simplifying the voting process for everyone
+                Simplifying the voting process for everyones
               </Typography>
               <Button
                 variant="contained"
