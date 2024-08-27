@@ -69,7 +69,7 @@ const Welcome = () => {
             <Grid item xs={12} md={6}>
               <Box
                 component="img"
-                src="/voters.jpg"
+                src="https://img.freepik.com/free-vector/elections-concept-illustration_114360-24247.jpg?t=st=1724736931~exp=1724740531~hmac=806b93befbf5fc809d0f07f4fdf4da853fd1be91c07a11ce4ab2a37a2d654e60&w=740"
                 alt="Illustration of people voting"
                 sx={{ width: "100%", height: "auto", borderRadius: 2 }}
               />

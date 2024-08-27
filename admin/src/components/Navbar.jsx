@@ -19,7 +19,7 @@ import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
-const settings = ["Profile", "Logout"];
+const settings = ["Logout"];
 
 function Navbar() {
   const { currentUser, dispatch } = useContext(AuthContext);
@@ -223,11 +223,9 @@ function Navbar() {
                 >
                   <Avatar
                     alt={userName}
-                    src={userAvatar}
+                    src={""}
                     sx={{ width: 30, height: 30, bgcolor: "#6439ff" }}
-                  >
-                    {userName ? userName[0].toUpperCase() : ""}
-                  </Avatar>
+                  ></Avatar>
                 </IconButton>
               </Tooltip>
               <Menu

@@ -90,7 +90,7 @@ const Login = () => {
               xs={12}
               md={6}
               sx={{
-                backgroundImage: `url(${login})`,
+                backgroundImage: `url(${"https://img.freepik.com/free-vector/voting-concept-illustration_114360-5822.jpg?t=st=1724733151~exp=1724736751~hmac=e359ff6c0453cf942523d0f7f048e4a1633e43a0e93d10db11c4173608204cb3&w=740"})`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
                 backgroundPosition: "center",

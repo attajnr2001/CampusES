@@ -4,8 +4,8 @@
   width: 200px;
   flex: 1;
   padding: 10px;
-  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  -webkit-box-shadow: 2px 4px 10px 1px #00000078;
+  box-shadow: 2px 4px 10px 1px #c9c9c978;
   border-radius: 10px;
   height: 100px;
   margin: auto;
@@ -23,7 +23,7 @@
 .widget .right .title {
   font-weight: bold;
   font-size: 14px;
-  color: rgb(160, 160, 160);
+  color: #a0a0a0;
 }
 
 .widget .left .counter,
