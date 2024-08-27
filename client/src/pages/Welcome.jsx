@@ -28,7 +28,7 @@ const Welcome = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            VoteEase
+            WebVote
           </Typography>
           <Button color="inherit" href="#about">
             About
@@ -52,7 +52,7 @@ const Welcome = () => {
                 component="h1"
                 gutterBottom
               >
-                WELCOME TO EASEVOTE
+                WELCOME TO WEBVOTE
               </Typography>
               <Typography variant="h5" paragraph>
                 Simplifying the voting process for everyone
@@ -79,10 +79,10 @@ const Welcome = () => {
 
         <Box id="about" sx={{ my: 4 }}>
           <Typography variant="h4" component="h2" gutterBottom>
-            About VoteEase
+            About WebVote
           </Typography>
           <Typography variant="body1" paragraph>
-            VoteEase is a secure and user-friendly platform designed to
+            WebVote is a secure and user-friendly platform designed to
             streamline the voting process for organizations of all sizes.
           </Typography>
         </Box>
@@ -128,7 +128,7 @@ const Welcome = () => {
             Contact Us
           </Typography>
           <Typography variant="body1" paragraph>
-            Have questions? Reach out to us at info@voteease.com
+            Have questions? Reach out to us at info@webVote.com
           </Typography>
         </Box>
       </Container>
@@ -136,7 +136,7 @@ const Welcome = () => {
       <Box component="footer" sx={{ bgcolor: "background.paper", py: 6 }}>
         <Container maxWidth="lg">
           <Typography variant="body2" color="text.secondary" align="center">
-            © 2024 VoteEase. All rights reserved.
+            © 2024 WebVote. All rights reserved.
           </Typography>
         </Container>
       </Box>

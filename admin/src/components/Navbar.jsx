@@ -162,7 +162,7 @@ function Navbar() {
                 color: "#fff",
               }}
             >
-              VOTE
+              WEBVOTE
             </Typography>
 
             <Typography
@@ -177,7 +177,7 @@ function Navbar() {
                 textDecoration: "none",
               }}
             >
-              VOTE
+              WEBVOTE
             </Typography>
             <Box
               sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}

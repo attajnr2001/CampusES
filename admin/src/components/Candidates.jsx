@@ -98,8 +98,29 @@ const Candidates = () => {
     }
   };
 
+  const handleIndexNumberChange = (event) => {
+    const value = event.target.value.replace(/\D/g, ""); // Remove non-digit characters
+    setNewCandidate({ ...newCandidate, indexNumber: value });
+  };
+
   const handleAddCandidate = async () => {
+    if (
+      !newCandidate.name ||
+      !newCandidate.indexNumber ||
+      !newCandidate.level ||
+      !newCandidate.gender ||
+      !newCandidate.position ||
+      !avatarFile
+    ) {
+      setError(
+        <Alert severity="error">
+          All fields are required, including the avatar
+        </Alert>
+      );
+      return;
+    }
     setLoading(true);
+
     try {
       let avatarUrl = "";
       if (avatarFile) {

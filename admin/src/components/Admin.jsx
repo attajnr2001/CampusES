@@ -63,6 +63,10 @@ const Admin = () => {
   };
 
   const handleAddAdmin = async () => {
+    if (!newAdmin.name || !newAdmin.email || !newAdmin.role) {
+      setError("All fields are required");
+      return;
+    }
     try {
       // Create user in Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(
